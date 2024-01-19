@@ -1,0 +1,2 @@
+-- DROP TABLE IF EXISTS public.users;
+-- DROP TABLE IF EXISTS public.auth_tokens;
