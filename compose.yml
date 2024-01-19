@@ -1,0 +1,7 @@
+services:
+    bywatt:
+        container_name: "bywatt.backend"
+        image: registry.github.com/M0hammedImran/go-server-template:latest
+        ports:
+            - 8080:8080
+        restart: "unless-stopped"
