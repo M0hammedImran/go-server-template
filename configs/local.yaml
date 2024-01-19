@@ -1,0 +1,57 @@
+server:
+    port: 8080
+    readTimeout: 15s
+    writeTimeout: 15s
+    gracefulShutdown: 30s
+logging:
+    level: -1
+    encoding: console
+    development: true
+jwt:
+    secret: Mjg5EHzYqey9fTQvp3YSVGmak0AbsFUJtCc2GLsEws=
+    sessionTime: 86400s
+db:
+    host: localhost
+    user: postgres
+    password: postgres
+    dbname: service
+    port: 5432
+    logLevel: 1
+    migrate:
+        enable: false
+        dir: /config/migrations
+    pool:
+        maxOpen: 10
+        maxIdle: 5
+        maxLifetime: "5m"
+cache:
+    enabled: true
+    prefix:
+    db: 1
+    type: redis
+    ttl: 60s
+    redis:
+        cluster: false
+        endpoints:
+            - 127.0.0.1:6379
+        readTimeout: 3s
+        writeTimeout: 3s
+        dialTimeout: 5s
+        poolSize: 10
+        poolTimeout: 1m
+        maxConnAge: 0
+        idleTimeout: 5m
+admin:
+    secret: Mjg5EHzYqey9fTQvp3YSVGmak0AbsFUJtCc2GLsEws=
+smtp:
+    host: smtp.gmail.com
+    port: 576
+    username: mohammedimran@gmail.com
+    password: xxxxxxxx
+ecowatt:
+    clientId: a290e94e-be7a-4489-84f8-182fd7b8d630
+    clientSecret: c92a5be8-2c67-430e-b306-07bc67756490
+    host: digital.iservices.rte-france.com
+ecogas:
+    apiKey: 5d20773807ee729bf165e45933cde80a9fbdd7a6598c1672bcf25789
+    host: odre.opendatasoft.com
