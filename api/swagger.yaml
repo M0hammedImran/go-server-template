@@ -1,0 +1,246 @@
+definitions:
+  handler.ErrorCode:
+    enum:
+    - InvalidQueryValue
+    - InvalidUriValue
+    - InvalidBodyValue
+    - NotFoundEntity
+    - DuplicateEntry
+    - InternalServerError
+    type: string
+    x-enum-varnames:
+    - InvalidQueryValue
+    - InvalidUriValue
+    - InvalidBodyValue
+    - NotFoundEntity
+    - DuplicateEntry
+    - InternalServerError
+  handler.ErrorResponse:
+    properties:
+      code:
+        $ref: '#/definitions/handler.ErrorCode'
+      message:
+        type: string
+      timestamp:
+        type: integer
+    type: object
+  handler.SuccessResponse:
+    properties:
+      data: {}
+      timestamp:
+        type: integer
+    type: object
+  model.EcoGasSignalResponse:
+    properties:
+      results:
+        items:
+          $ref: '#/definitions/model.Results'
+        type: array
+      total_count:
+        type: integer
+    type: object
+  model.Results:
+    properties:
+      color:
+        type: string
+      date:
+        type: string
+      index:
+        type: string
+    type: object
+  model.Signals:
+    properties:
+      GenerationFichier:
+        type: string
+      dvalue:
+        type: integer
+      jour:
+        type: string
+      message:
+        type: string
+      values:
+        items:
+          $ref: '#/definitions/model.Values'
+        type: array
+    type: object
+  model.Values:
+    properties:
+      hvalue:
+        type: integer
+      pas:
+        type: integer
+    type: object
+  users.ForgotPasswordInput:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  users.LoginInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  users.ResetPasswordInput:
+    properties:
+      email:
+        type: string
+      otp:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - otp
+    - password
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/ecogas/signals:
+    get:
+      description: Get signals
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.EcoGasSignalResponse'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get signals
+      tags:
+      - EcoGas
+  /v1/ecowatt/signals:
+    get:
+      description: Get signals
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Signals'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get signals
+      tags:
+      - EcoWatt
+  /v1/forgot-password:
+    post:
+      description: Forgot Password
+      parameters:
+      - description: ' '
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/users.ForgotPasswordInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Forgot Password
+      tags:
+      - Auth
+  /v1/login:
+    post:
+      description: Login
+      parameters:
+      - description: ' '
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/users.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Login
+      tags:
+      - Auth
+  /v1/refresh:
+    post:
+      description: Refresh Access and Refresh Tokens
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Refresh Access and Refresh Tokens
+      tags:
+      - Auth
+  /v1/reset-password:
+    post:
+      description: Reset Password
+      parameters:
+      - description: ' '
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/users.ResetPasswordInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Reset Password
+      tags:
+      - Auth
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
